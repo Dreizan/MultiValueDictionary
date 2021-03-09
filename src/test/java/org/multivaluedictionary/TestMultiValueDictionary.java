@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,7 +55,7 @@ public class TestMultiValueDictionary {
         Map<String, Set<String>> mvdValues = new HashMap<>();
         mvdValues.put("foo", new HashSet<>(Arrays.asList("bar", "baz")));
         MultiValueDictionary mvd = new MultiValueDictionary(mvdValues);
-        assertEquals(mvdValues.entrySet(), mvd.getMembers("foo"));
+        assertEquals(mvdValues.get("foo"), mvd.getMembers("foo"));
     }
 
     /**
@@ -137,12 +138,13 @@ public class TestMultiValueDictionary {
      * members of the key still exist
      */
     @Test
-    public void testRemove_MultipleValuesExists() {
+    public void testRemove_MultipleValuesExist() {
         Map<String, Set<String>> expectedValues = new HashMap<>();
         expectedValues.put("foo", new HashSet<>(Arrays.asList("baz")));
         expectedValues.put("baz", new HashSet<>(Arrays.asList("bang")));
         Map<String, Set<String>> initialValues = new HashMap<>();
         initialValues.put("foo", new HashSet<>(Arrays.asList("bar", "baz")));
+        initialValues.put("baz", new HashSet<>(Arrays.asList("bang")));
         MultiValueDictionary mvd = new MultiValueDictionary(initialValues);
         mvd.remove("foo", "bar");
         assertEquals(expectedValues, mvd.getItems());
@@ -190,10 +192,10 @@ public class TestMultiValueDictionary {
     @Test
     public void testRemoveAll_Exists() {
         Map<String, Set<String>> expectedValues = new HashMap<>();
-        expectedValues.put("foo", new HashSet<>(Arrays.asList("bar", "baz")));
         expectedValues.put("baz", new HashSet<>(Arrays.asList("bang")));
         Map<String, Set<String>> initialValues = new HashMap<>();
         initialValues.put("foo", new HashSet<>(Arrays.asList("bar", "baz")));
+        initialValues.put("baz", new HashSet<>(Arrays.asList("bang")));
         MultiValueDictionary mvd = new MultiValueDictionary(initialValues);
         mvd.removeAll("foo");
         assertEquals(expectedValues, mvd.getItems());
@@ -272,20 +274,26 @@ public class TestMultiValueDictionary {
      * Tests ALLMEMBERS functionality - obtains list of all members from all keys
      */
     @Test
-    public void testAllMembers() {
+    public void testGetAllMembers_ItemsDoExist() {
         List<String> expectedValues = Arrays.asList("bar", "baz", "bang", "bar");
         Map<String, Set<String>> mvdValues = new HashMap<>();
         mvdValues.put("foo", new HashSet<>(Arrays.asList("bar", "baz")));
         mvdValues.put("baz", new HashSet<>(Arrays.asList("bang", "bar")));
         MultiValueDictionary mvd = new MultiValueDictionary(mvdValues);
-        assertEquals(expectedValues, mvd.getAllMembers());
+        for (String expectedValue : expectedValues) {
+            assertTrue(mvd.getAllMembers().contains(expectedValue));
+            if (expectedValue.equals("bar")) {
+                assertNotEquals(mvd.getAllMembers().indexOf(expectedValue),
+                        mvd.getAllMembers().lastIndexOf(expectedValue));
+            }
+        }
     }
 
     /**
      * Tests ALLMEMBERS functionality - returns null if there's nothing in the multi-value dictionary
      */
     @Test
-    public void testGetKeys_ItemsDoNotExist() {
+    public void testGetAllMembers_ItemsDoNotExist() {
         MultiValueDictionary mvd = new MultiValueDictionary();
         assertNull(mvd.getAllMembers());
     }
@@ -308,7 +316,7 @@ public class TestMultiValueDictionary {
      * Tests ITEMS functionality - returns null if there's nothing in the multi-value dictionary
      */
     @Test
-    public void testGetKeys_ItemsDoNotExist() {
+    public void testGetItems_ItemsDoNotExist() {
         MultiValueDictionary mvd = new MultiValueDictionary();
         assertNull(mvd.getItems());
     }
