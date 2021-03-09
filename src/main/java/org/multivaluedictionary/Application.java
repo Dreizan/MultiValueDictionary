@@ -38,93 +38,133 @@ public class Application {
 
             switch (splitInput.get(0)) {
                 case "KEYS":
-                    Set<String> keys = dictionary.getKeys();
-                    if (keys == null) {
-                        System.out.println("(empty set)\n");
+                    if (splitInput.size() != 1) {
+                        System.out.println("Incorrect number of arguments\n");
                     } else {
-                        int keyNum = 1;
-                        for (String key : keys) {
-                            System.out.printf("%d) %s\n", keyNum++, keys);
+                        Set<String> keys = dictionary.getKeys();
+                        if (keys == null) {
+                            System.out.println("(empty set)\n");
+                        } else {
+                            int keyNum = 1;
+                            for (String key : keys) {
+                                System.out.printf("%d) %s\n", keyNum++, key);
+                            }
+                            System.out.println();
                         }
-                        System.out.println();
                     }
                     break;
                 case "MEMBERS":
-                    try {
-                        Set<String> members = dictionary.getMembers(splitInput.get(1));
-                        int memberNum = 1;
-                        for (String member : members) {
-                            System.out.printf("%d) %s\n", memberNum++, member);
+                    if (splitInput.size() != 2) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        try {
+                            Set<String> members = dictionary.getMembers(splitInput.get(1));
+                            int memberNum = 1;
+                            for (String member : members) {
+                                System.out.printf("%d) %s\n", memberNum++, member);
+                            }
+                            System.out.println();
+                        } catch (NoSuchElementException nsee) {
+                            System.out.println("> ERROR, " + nsee.getMessage());
                         }
-                        System.out.println();
-                    } catch (NoSuchElementException nsee) {
-                        System.out.println("> ERROR, " + nsee.getMessage());
                     }
                     break;
                 case "ADD":
-                    try {
-                        dictionary.add(splitInput.get(1), splitInput.get(2));
-                        System.out.println(") Added");
-                    } catch (UnsupportedOperationException uoe) {
-                        System.out.println("> ERROR, " + uoe.getMessage());
+                    if (splitInput.size() != 3) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        try {
+                            dictionary.add(splitInput.get(1), splitInput.get(2));
+                            System.out.println(") Added");
+                        } catch (UnsupportedOperationException uoe) {
+                            System.out.println("> ERROR, " + uoe.getMessage());
+                        }
                     }
                     break;
                 case "REMOVE":
-                    try {
-                        dictionary.remove(splitInput.get(1), splitInput.get(2));
-                        System.out.println(") Removed");
-                    } catch (NoSuchElementException nsee) {
-                        System.out.println("> ERROR, " + nsee.getMessage() + "\n");
+                    if (splitInput.size() != 3) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        try {
+                            dictionary.remove(splitInput.get(1), splitInput.get(2));
+                            System.out.println(") Removed");
+                        } catch (NoSuchElementException nsee) {
+                            System.out.println("> ERROR, " + nsee.getMessage() + "\n");
+                        }
                     }
                     break;
                 case "REMOVEALL":
-                    try {
-                        dictionary.removeAll(splitInput.get(1));
-                        System.out.println(") Removed");
-                    } catch (NoSuchElementException nsee) {
-                        System.out.println("> ERROR, " + nsee.getMessage());
+                    if (splitInput.size() != 2) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        try {
+                            dictionary.removeAll(splitInput.get(1));
+                            System.out.println(") Removed");
+                        } catch (NoSuchElementException nsee) {
+                            System.out.println("> ERROR, " + nsee.getMessage());
+                        }
                     }
                     break;
                 case "CLEAR":
-                    dictionary.clear();
-                    System.out.println(") Cleared\n");
+                    if (splitInput.size() != 1) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        dictionary.clear();
+                        System.out.println(") Cleared\n");
+                    }
                     break;
                 case "KEYEXISTS":
-                    System.out.println(") " + dictionary.keyExists(splitInput.get(1)));
+                    if (splitInput.size() != 2) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        System.out.println(") " + dictionary.keyExists(splitInput.get(1)));
+                    }
                     break;
                 case "VALUEEXISTS":
-                    System.out.println(") " + dictionary.valueExists(splitInput.get(1), splitInput.get(2)));
+                    if (splitInput.size() != 3) {
+                        System.out.println("Incorrect number of arguments\n");
+                    } else {
+                        System.out.println(") " + dictionary.valueExists(splitInput.get(1), splitInput.get(2)));
+                    }
                     break;
                 case "ALLMEMBERS":
-                    List<String> members = dictionary.getAllMembers();
-                    if (members == null) {
-                        System.out.println("(empty set)");
+                    if (splitInput.size() != 1) {
+                        System.out.println("Incorrect number of arguments\n");
                     } else {
-                        int memberNum = 1;
-                        for (String member : members) {
-                            System.out.printf("%d) %s\n", memberNum++, member);
+                        List<String> members = dictionary.getAllMembers();
+                        if (members == null) {
+                            System.out.println("(empty set)");
+                        } else {
+                            int memberNum = 1;
+                            for (String member : members) {
+                                System.out.printf("%d) %s\n", memberNum++, member);
+                            }
+                            System.out.println();
                         }
-                        System.out.println();
                     }
                     break;
                 case "ITEMS":
-                    Map<String, Set<String>> items = dictionary.getItems();
-                    if (items == null) {
-                        System.out.println("(empty set)");
+                    if (splitInput.size() != 1) {
+                        System.out.println("Incorrect number of arguments\n");
                     } else {
-                        int itemNum = 1;
-                        for (String key : items.keySet()) {
-                            for (String member : items.get(key)) {
-                                System.out.printf("%d) %s: %s\n", itemNum++, key, member);
+                        Map<String, Set<String>> items = dictionary.getItems();
+                        if (items == null) {
+                            System.out.println("(empty set)");
+                        } else {
+                            int itemNum = 1;
+                            for (String key : items.keySet()) {
+                                for (String member : items.get(key)) {
+                                    System.out.printf("%d) %s: %s\n", itemNum++, key, member);
+                                }
                             }
+                            System.out.println();
                         }
-                        System.out.println();
                     }
                     break;
                 case "EXIT":
                     break;
                 default:
-                    System.out.println("Unsupported operation: " + splitInput.get(0));
+                    System.out.println("Unsupported operation; please try again");
                     break;
             }
         } while (!userInput.equals("EXIT"));
