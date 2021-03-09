@@ -320,4 +320,32 @@ public class TestMultiValueDictionary {
         MultiValueDictionary mvd = new MultiValueDictionary();
         assertNull(mvd.getItems());
     }
+
+    // INTERSECTION
+
+    @Test
+    public void testGetIntersection_commonValues() {
+        // expected value
+        Set<String> expectedValues = new HashSet<>(Arrays.asList("bar"));
+
+        // values for multi value dictionary
+        Map<String, Set<String>> mvdValues = new HashMap<>();
+        mvdValues.put("foo", new HashSet<>(Arrays.asList("bar", "baz")));
+        mvdValues.put("baz", new HashSet<>(Arrays.asList("bar")));
+        MultiValueDictionary mvd = new MultiValueDictionary(mvdValues);
+        assertEquals(expectedValues, mvd.getIntersection("foo", "baz"));
+    }
+
+    @Test
+    public void testGetIntersection_noCommonValues() {
+        // expected value
+        Set<String> expectedValues = new HashSet<>();
+
+        // values for multi value dictionary
+        Map<String, Set<String>> mvdValues = new HashMap<>();
+        mvdValues.put("foo", new HashSet<>(Arrays.asList("baz")));
+        mvdValues.put("baz", new HashSet<>(Arrays.asList("bar")));
+        MultiValueDictionary mvd = new MultiValueDictionary(mvdValues);
+        assertEquals(expectedValues, mvd.getIntersection("foo", "baz"));
+    }
 }

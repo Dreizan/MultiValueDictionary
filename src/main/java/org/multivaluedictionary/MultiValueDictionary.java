@@ -168,4 +168,22 @@ public class MultiValueDictionary {
         }
         return dictionary;
     }
+
+    /**
+     * Obtains intersection of two different keys in the multi-value dictionary
+     * @param key1 first key to compare values with
+     * @param key2 second key to compare values with
+     * @return intersection of values between the two keys
+     */
+    public Set<String> getIntersection(String key1, String key2) {
+        Set<String> intersection = new HashSet<>();
+
+        for (String value : dictionary.get(key1)) {
+            if (dictionary.get(key2).contains(value)) {
+                intersection.add(value);
+            }
+        }
+
+        return intersection;
+    }
 }

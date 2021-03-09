@@ -161,6 +161,22 @@ public class Application {
                         }
                     }
                     break;
+                case "INTERSECTION":
+                    if (splitInput.size() != 3) {
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
+                    } else {
+                        Set<String> intersection = dictionary.getIntersection(splitInput.get(1), splitInput.get(2));
+                        if (intersection.isEmpty()) {
+                            System.out.println("(empty set)\n");
+                        } else {
+                            int memberNum = 1;
+                            for (String member : intersection) {
+                                System.out.printf("%d) %s\n", memberNum++, member);
+                            }
+                            System.out.println();
+                        }
+                    }
+                    break;
                 case "EXIT":
                     break;
                 default:
