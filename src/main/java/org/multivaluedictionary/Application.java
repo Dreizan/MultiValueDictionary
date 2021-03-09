@@ -39,7 +39,7 @@ public class Application {
             switch (splitInput.get(0)) {
                 case "KEYS":
                     if (splitInput.size() != 1) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         Set<String> keys = dictionary.getKeys();
                         if (keys == null) {
@@ -55,7 +55,7 @@ public class Application {
                     break;
                 case "MEMBERS":
                     if (splitInput.size() != 2) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         try {
                             Set<String> members = dictionary.getMembers(splitInput.get(1));
@@ -65,49 +65,49 @@ public class Application {
                             }
                             System.out.println();
                         } catch (NoSuchElementException nsee) {
-                            System.out.println("> ERROR, " + nsee.getMessage());
+                            System.out.println(") ERROR, " + nsee.getMessage() + "\n");
                         }
                     }
                     break;
                 case "ADD":
                     if (splitInput.size() != 3) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         try {
                             dictionary.add(splitInput.get(1), splitInput.get(2));
-                            System.out.println(") Added");
+                            System.out.println(") Added\n");
                         } catch (UnsupportedOperationException uoe) {
-                            System.out.println("> ERROR, " + uoe.getMessage());
+                            System.out.println(") ERROR, " + uoe.getMessage() + "\n");
                         }
                     }
                     break;
                 case "REMOVE":
                     if (splitInput.size() != 3) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         try {
                             dictionary.remove(splitInput.get(1), splitInput.get(2));
-                            System.out.println(") Removed");
+                            System.out.println(") Removed\n");
                         } catch (NoSuchElementException nsee) {
-                            System.out.println("> ERROR, " + nsee.getMessage() + "\n");
+                            System.out.println(") ERROR, " + nsee.getMessage() + "\n");
                         }
                     }
                     break;
                 case "REMOVEALL":
                     if (splitInput.size() != 2) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         try {
                             dictionary.removeAll(splitInput.get(1));
-                            System.out.println(") Removed");
+                            System.out.println(") Removed\n");
                         } catch (NoSuchElementException nsee) {
-                            System.out.println("> ERROR, " + nsee.getMessage());
+                            System.out.println(") ERROR, " + nsee.getMessage() + "\n");
                         }
                     }
                     break;
                 case "CLEAR":
                     if (splitInput.size() != 1) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         dictionary.clear();
                         System.out.println(") Cleared\n");
@@ -115,25 +115,25 @@ public class Application {
                     break;
                 case "KEYEXISTS":
                     if (splitInput.size() != 2) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
-                        System.out.println(") " + dictionary.keyExists(splitInput.get(1)));
+                        System.out.println(") " + dictionary.keyExists(splitInput.get(1)) + "\n");
                     }
                     break;
                 case "VALUEEXISTS":
                     if (splitInput.size() != 3) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
-                        System.out.println(") " + dictionary.valueExists(splitInput.get(1), splitInput.get(2)));
+                        System.out.println(") " + dictionary.valueExists(splitInput.get(1), splitInput.get(2)) + "\n");
                     }
                     break;
                 case "ALLMEMBERS":
                     if (splitInput.size() != 1) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         List<String> members = dictionary.getAllMembers();
                         if (members == null) {
-                            System.out.println("(empty set)");
+                            System.out.println("(empty set)\n");
                         } else {
                             int memberNum = 1;
                             for (String member : members) {
@@ -145,11 +145,11 @@ public class Application {
                     break;
                 case "ITEMS":
                     if (splitInput.size() != 1) {
-                        System.out.println("Incorrect number of arguments\n");
+                        System.out.println(") ERROR, Incorrect number of arguments\n");
                     } else {
                         Map<String, Set<String>> items = dictionary.getItems();
                         if (items == null) {
-                            System.out.println("(empty set)");
+                            System.out.println("(empty set)\n");
                         } else {
                             int itemNum = 1;
                             for (String key : items.keySet()) {
@@ -164,7 +164,7 @@ public class Application {
                 case "EXIT":
                     break;
                 default:
-                    System.out.println("Unsupported operation; please try again");
+                    System.out.println(") ERROR, Unsupported operation; please try again\n");
                     break;
             }
         } while (!userInput.equals("EXIT"));
